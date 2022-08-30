@@ -32,28 +32,21 @@ app.get("/getAllBoogi", (_request, response) => {
 });
 
 
-app.get("/getAllBoogi", (_request, response) => {
-  client.query("SELECT * FROM boogi;", (err: Error, res: any) => {
-    if (err) throw err;
-    response.json(res.rows);
-  });
-});
-
-app.get("/getAllSup", (_request, response) => {
+app.get("/getAllsup", (_request, response) => {
   client.query("SELECT * FROM sup;", (err: Error, res: any) => {
     if (err) throw err;
     response.json(res.rows);
   });
 });
 
-app.get("/getAllSoft", (_request, response) => {
+app.get("/getAllsoft", (_request, response) => {
   client.query("SELECT * FROM soft;", (err: Error, res: any) => {
     if (err) throw err;
     response.json(res.rows);
   });
 });
 
-app.get("/getAllManSuit", (_request, response) => {
+app.get("/getAllmanSuit", (_request, response) => {
   client.query("SELECT * FROM swimsuit_man;", (err: Error, res: any) => {
     if (err) throw err;
     response.json(res.rows);
