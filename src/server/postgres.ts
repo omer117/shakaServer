@@ -182,4 +182,4 @@ async function initDb() {
      
     await client.end()
 }
-    initDb(); //create the tables
+//     initDb(); //create the tables

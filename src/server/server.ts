@@ -2,7 +2,7 @@ import path from 'path';
 import express, { Express } from 'express';
 import cors from 'cors';
 import { json } from 'body-parser';
-// import { client } from './postgres';
+import { client } from './postgres';
 
 
 const app: Express = express();
@@ -18,18 +18,54 @@ app.use(express.static(root), (_req, _res, next) => {
 });
 
 app.get('/', (_req, res) => {
-  console.log('asd');
   
+  console.log('asd');
+  client.connect();
   res.send("hello");
 });
 
-// app.get("/getSocks", (_request, response) => {
-//   client.query("SELECT * FROM socks", (err: Error, res: any) => {
-//     if (err) throw err;
-//     response.json(res.rows);
-//   });
-// });
+app.get("/getAllBoogi", (_request, response) => {
+  client.query("SELECT * FROM boogi;", (err: Error, res: any) => {
+    if (err) throw err;
+    response.json(res.rows);
+  });
+});
 
+
+app.get("/getAllBoogi", (_request, response) => {
+  client.query("SELECT * FROM boogi;", (err: Error, res: any) => {
+    if (err) throw err;
+    response.json(res.rows);
+  });
+});
+
+app.get("/getAllSup", (_request, response) => {
+  client.query("SELECT * FROM sup;", (err: Error, res: any) => {
+    if (err) throw err;
+    response.json(res.rows);
+  });
+});
+
+app.get("/getAllSoft", (_request, response) => {
+  client.query("SELECT * FROM soft;", (err: Error, res: any) => {
+    if (err) throw err;
+    response.json(res.rows);
+  });
+});
+
+app.get("/getAllManSuit", (_request, response) => {
+  client.query("SELECT * FROM swimsuit_man;", (err: Error, res: any) => {
+    if (err) throw err;
+    response.json(res.rows);
+  });
+});
+
+app.get("/getAllWomanSuit", (_request, response) => {
+  client.query("SELECT * FROM swimsuit_women;", (err: Error, res: any) => {
+    if (err) throw err;
+    response.json(res.rows);
+  });
+});
 // app.get("/getLocationsID", (_request, response) => {
 //   client.query("SELECT location_id FROM locations;", (err: Error, res: any) => {
 //     if (err) throw err;
