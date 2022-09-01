@@ -17,6 +17,8 @@ app.use(express.static(root), (_req, _res, next) => {
   next();
 });
 
+
+
 app.get('/', (_req, res) => {
   
   console.log('asd');
