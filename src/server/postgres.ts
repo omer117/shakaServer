@@ -19,7 +19,7 @@ async function initDb() {
 //* creating new tables *//
 
     await client.query(
-        `CREATE TABLE IF NOT EXISTS swimsuit_man(
+        `CREATE TABLE IF NOT EXISTS mansuit(
           id SERIAL PRIMARY KEY,
           title TEXT NOT NULL,
           price INTEGER NOT NULL,
@@ -29,7 +29,7 @@ async function initDb() {
     );
 
     await client.query(
-        `CREATE TABLE IF NOT EXISTS swimsuit_women(
+        `CREATE TABLE IF NOT EXISTS womansuit(
           id SERIAL PRIMARY KEY,
           title TEXT NOT NULL,
           price INTEGER NOT NULL,
@@ -125,31 +125,31 @@ async function initDb() {
 //         `
 //     );
 
-// ('Akaeys Womens Full Body Swimsuit Rash Guard One Piece Long Sleeve',29,'Fabric TypeSpandex,Nylon','{xs,s}','https://m.media-amazon.com/images/I/61SiCXNdrWL._AC_UY500_.jpg')
-    // await client.query(
-    //     `INSERT INTO womanSuit (title,price,info,sizes,image) VALUES
-    //     ('Full Body Wetsuit Surfing Diving Suit Scuba Dive Skin Rash Guard',39,'Ironman & USAT Approed','{xs,m,l,xl}','https://m.media-amazon.com/images/I/61kBp475ktL._AC_SY550_.jpg')
-    //     ,('FEOYA One Piece Swimsuit Long Sleeve Full Body Swim: Feoya full body dive skins made with Spandex & Nylon to give you a extremely soft breathable and lightweight feelings it is super comfortable to close skins and smooth naturally form fitting to reduce drag in the water offer you a happy snorkeling and surfing experience.war Rash Guard with Sun Protection',53,'Material - Premium quick-drying, breathable, moisture wicking fabric for all-day comfort,Four-way stretch material enhances the range of motion.','{xs,m,l}','https://m.media-amazon.com/images/I/614jvpajfNS._AC_UY500_.jpg')
-    //     ,('MakeMeChic Womens Colorblock Zip Up One Piece Swimsuit Sporty Bathing Set',33,'Soft with Good Elasticity, Comfy to Wear.','{m,l,xl,xxl}','https://m.media-amazon.com/images/I/618FszdRuNL._AC_UY500_.jpg')
-    //     ,('MakeMeChic Sporty Bathing Set',57,'Fabric Type - 82% Polyester, 18% Elastane','{l}','https://m.media-amazon.com/images/I/51bem6cUUvL._AC_SY500._SX._UX._SY._UY_.jpg')
-    //     ,('Micosuza Swimsuit for Women Design One Piece Long-Sleeve Surfing Suit',120,'Closure TypeZipper','{xs,xl,xxl}','https://m.media-amazon.com/images/I/51EslEeH8sL._AC_UY500_.jpg')
-    //     ,('Casual Color Block Fashion Long Long Sleeve Swimsuit Sports Surfing Bathing Suit',390,'Fabric - Type82% Nylon, 18% Spandex','{l,xl,xxl,xxxl}','https://m.media-amazon.com/images/I/61Nu3-VxVWL._AC_UY500_.jpg')
-    //     ,('YATEEN Women Rash Guard Long Sleeve One Piece Swimsuit Surfing Bathing Suit UPF 50+ Athletic Swimwear',34,'Zipper on the chest or back for easy opening and closure, long sleeve one piece swimsuit sun protection.','{xxs,s,l,xl,xxl}','https://m.media-amazon.com/images/I/71AtddUQbDL._AC_UY500_.jpg')
-    //     ,('Roxy Womens Whole Hearted Long Sleeve UPF 50 Rashguard',68,'Fabric Type - 92.0% Polyester, 8% Elastane','{xl,xxl,xxxl}','https://m.media-amazon.com/images/I/61zae-SELlL._AC_UY500_.jpg');`
-    // );
+// await client.query(
+//     `INSERT INTO womansuit (title,price,info,sizes,image) VALUES
+//          ('Akaeys Womens Full Body Swimsuit Rash Guard One Piece Long Sleeve',29,'Fabric TypeSpandex,Nylon','{xs,s}','https://m.media-amazon.com/images/I/61SiCXNdrWL._AC_UY500_.jpg')
+//         ,('Full Body Wetsuit Surfing Diving Suit Scuba Dive Skin Rash Guard',39,'Ironman & USAT Approed','{xs,m,l,xl}','https://m.media-amazon.com/images/I/61kBp475ktL._AC_SY550_.jpg')
+//         ,('FEOYA One Piece Swimsuit Long Sleeve Full Body Swim: Feoya full body dive skins made with Spandex & Nylon to give you a extremely soft breathable and lightweight feelings it is super comfortable to close skins and smooth naturally form fitting to reduce drag in the water offer you a happy snorkeling and surfing experience.war Rash Guard with Sun Protection',53,'Material - Premium quick-drying, breathable, moisture wicking fabric for all-day comfort,Four-way stretch material enhances the range of motion.','{xs,m,l}','https://m.media-amazon.com/images/I/614jvpajfNS._AC_UY500_.jpg')
+//         ,('MakeMeChic Womens Colorblock Zip Up One Piece Swimsuit Sporty Bathing Set',33,'Soft with Good Elasticity, Comfy to Wear.','{m,l,xl,xxl}','https://m.media-amazon.com/images/I/618FszdRuNL._AC_UY500_.jpg')
+//         ,('MakeMeChic Sporty Bathing Set',57,'Fabric Type - 82% Polyester, 18% Elastane','{l}','https://m.media-amazon.com/images/I/51bem6cUUvL._AC_SY500._SX._UX._SY._UY_.jpg')
+//         ,('Micosuza Swimsuit for Women Design One Piece Long-Sleeve Surfing Suit',120,'Closure TypeZipper','{xs,xl,xxl}','https://m.media-amazon.com/images/I/51EslEeH8sL._AC_UY500_.jpg')
+//         ,('Casual Color Block Fashion Long Long Sleeve Swimsuit Sports Surfing Bathing Suit',390,'Fabric - Type82% Nylon, 18% Spandex','{l,xl,xxl,xxxl}','https://m.media-amazon.com/images/I/61Nu3-VxVWL._AC_UY500_.jpg')
+//         ,('YATEEN Women Rash Guard Long Sleeve One Piece Swimsuit Surfing Bathing Suit UPF 50+ Athletic Swimwear',34,'Zipper on the chest or back for easy opening and closure, long sleeve one piece swimsuit sun protection.','{xxs,s,l,xl,xxl}','https://m.media-amazon.com/images/I/71AtddUQbDL._AC_UY500_.jpg')
+//         ,('Roxy Womens Whole Hearted Long Sleeve UPF 50 Rashguard',68,'Fabric Type - 92.0% Polyester, 8% Elastane','{xl,xxl,xxxl}','https://m.media-amazon.com/images/I/61zae-SELlL._AC_UY500_.jpg');`
+//     );
 
-    //  await client.query(
-    //      `INSERT INTO manSuit (title,price,info,sizes,image) VALUES
-    //       ('Rash Guard UPF 50+ UV Sunprotection for Men Women Full Body Diving Suit',239,'Fabric Type - Lycra UV Protection Long Sleeves Sports Dive Skins for Running, Exercising, Snorkeling, Swimming, Spearfishing & Other Water Sports','{xs,s,l,xl,xxl}','https://m.media-amazon.com/images/I/61fQwHpPlJL._AC_UX466_.jpg')
-    //      ,('Ravani Mens Wetsuit surf',45,'One-Piece Wetsuit, Pursuing The Ultimate Wearing Experience - We try to combine all the small separated pieces neoprene into one piece, and use the least sewing thread to sew the wetsuits for men, the purpose is to maximize the performance of the mens wetsuit Elasticity and showing the figure, so that the wetsuits for men in cold water can be fully close to your skin without feeling tight','{xs,s,l,xl,xxl}','https://m.media-amazon.com/images/I/61D1DjELzQL._AC_SX522_.jpg')
-    //      ,('Mens 3mm Shorty Wetsuit',60,'This shorty wetsuit men is specially designed for water sports and water aerobics','{xs,s,l,xl}','https://m.media-amazon.com/images/I/61QYjoOIxLL._AC_SX522_.jpg')
-    //      ,('Dizokizo 5mm Wetsuits for Men',239,'Heavy-duty metal back zipper effectively prevents 3mm mens wetsuit turning unzipped.','{xs,s,l,xl,xxl}','https://m.media-amazon.com/images/I/61Tjn0xVm2S._AC_SX522_.jpg')
-    //      ,('ZCCO Mens Wetsuit Ultra Stretch 5mm Neoprene Swimsuit',239,'【Specific fitting design for you】Our diving suits are made of premium neoprene, primarily providing thermal insulation, Buoyancy, UV protection, wear protection, and the bite of marine life.','{xs,s,l,xxl}','https://m.media-amazon.com/images/I/51x8Vo5AGFL._AC_SX522_.jpg')
-    //      ,('Ho Stevie! Mens Surfing Wetsuit - Chest Zip Fullsuit ',70,'','{xs,s,xl,xxl}','Ho Stevie! Mens Surfing Wetsuit - Chest Zip Fullsuit')
-    //      ,('OMGear Wetsuit Women Men 2mm Neoprene Dive Shorty Wet Suit Thermal Short Sleeve Swimsuit',80,'High quality material: 90% neoprene + 10% stretchy nylon','{xs,l,xl,xxl}','https://m.media-amazon.com/images/I/71sRV9U8UqS._AC_SX522_.jpg')
-    //      ,('REALON Wetsuit Men',90,'Surfing suit with stretchy materials comfortable enough for all day wear','{l,xl,xxl}','https://m.media-amazon.com/images/I/614XppWmkCL._AC_SX522_.jpg')
-    //      ,('Shorty Wetsuit',70,'This shorty wetsuit men is specially designed for water sports and water aerobics','{xs,s,l,xxl}','https://m.media-amazon.com/images/I/618uod499CL._AC_SX522_.jpg');`
-    //  );
+//      await client.query(
+//          `INSERT INTO mansuit (title,price,info,sizes,image) VALUES
+//           ('Rash Guard UPF 50+ UV Sunprotection for Men Women Full Body Diving Suit',239,'Fabric Type - Lycra UV Protection Long Sleeves Sports Dive Skins for Running, Exercising, Snorkeling, Swimming, Spearfishing & Other Water Sports','{xs,s,l,xl,xxl}','https://m.media-amazon.com/images/I/61fQwHpPlJL._AC_UX466_.jpg')
+//          ,('Ravani Mens Wetsuit surf',45,'One-Piece Wetsuit, Pursuing The Ultimate Wearing Experience - We try to combine all the small separated pieces neoprene into one piece, and use the least sewing thread to sew the wetsuits for men, the purpose is to maximize the performance of the mens wetsuit Elasticity and showing the figure, so that the wetsuits for men in cold water can be fully close to your skin without feeling tight','{xs,s,l,xl,xxl}','https://m.media-amazon.com/images/I/61D1DjELzQL._AC_SX522_.jpg')
+//          ,('Mens 3mm Shorty Wetsuit',60,'This shorty wetsuit men is specially designed for water sports and water aerobics','{xs,s,l,xl}','https://m.media-amazon.com/images/I/61QYjoOIxLL._AC_SX522_.jpg')
+//          ,('Dizokizo 5mm Wetsuits for Men',239,'Heavy-duty metal back zipper effectively prevents 3mm mens wetsuit turning unzipped.','{xs,s,l,xl,xxl}','https://m.media-amazon.com/images/I/61Tjn0xVm2S._AC_SX522_.jpg')
+//          ,('ZCCO Mens Wetsuit Ultra Stretch 5mm Neoprene Swimsuit',239,'【Specific fitting design for you】Our diving suits are made of premium neoprene, primarily providing thermal insulation, Buoyancy, UV protection, wear protection, and the bite of marine life.','{xs,s,l,xxl}','https://m.media-amazon.com/images/I/51x8Vo5AGFL._AC_SX522_.jpg')
+//          ,('Ho Stevie! Mens Surfing Wetsuit - Chest Zip Fullsuit ',70,'','{xs,s,xl,xxl}','Ho Stevie! Mens Surfing Wetsuit - Chest Zip Fullsuit')
+//          ,('OMGear Wetsuit Women Men 2mm Neoprene Dive Shorty Wet Suit Thermal Short Sleeve Swimsuit',80,'High quality material: 90% neoprene + 10% stretchy nylon','{xs,l,xl,xxl}','https://m.media-amazon.com/images/I/71sRV9U8UqS._AC_SX522_.jpg')
+//          ,('REALON Wetsuit Men',90,'Surfing suit with stretchy materials comfortable enough for all day wear','{l,xl,xxl}','https://m.media-amazon.com/images/I/614XppWmkCL._AC_SX522_.jpg')
+//          ,('Shorty Wetsuit',70,'This shorty wetsuit men is specially designed for water sports and water aerobics','{xs,s,l,xxl}','https://m.media-amazon.com/images/I/618uod499CL._AC_SX522_.jpg');`
+//      );
 
     // ('Catch Surf Odysea Skipper Quad Shortboard',299,'Catch Surf is a Soft Surfboards, clothes and accessories brand. Created in 2007 the Catch Surf boards have pioneered and led the soft surfboards movement for the last 10 years.','{6.5}','https://m.media-amazon.com/images/I/81IY3ub1OTL._AC_SY550_.jpg')
     // await client.query(
@@ -169,4 +169,4 @@ async function initDb() {
      
     await client.end()
 }
-//     initDb(); //create the tables
+    initDb(); //create the tables
