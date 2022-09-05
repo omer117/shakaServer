@@ -61,26 +61,17 @@ app.get("/getAllWomanSuit", (_request, response) => {
     response.json(res.rows);
   });
 });
-// app.get("/getLocationsID", (_request, response) => {
-//   client.query("SELECT location_id FROM locations;", (err: Error, res: any) => {
-//     if (err) throw err;
-//     response.json(res.rows.map((obj: any) => obj.location_id));
-//   });
-// });
 
-// app.get("/getOfficersID", (_request, response) => {
-//   client.query("SELECT officer_id FROM officers;", (err: Error, res: any) => {
-//     if (err) throw err;
-//     response.json(res.rows.map((obj: any) => obj.officer_id));
-//   });
-// });
 
-// app.post('/getSockById', (request: any, _response) => {
-//   client.query(request.body.sqlString, (err: Error, res) => {
-//     if (err) throw err;
-//     _response.json(JSON.stringify(res.rows[0]));
-//   })
-// });
+app.post('/getProduct', (request: any, _response) => {
+  let id = request.body[0];
+  let catagory = request.body[1];
+  let sqlCommand = `SELECT * FROM ${catagory} WHERE id=${id};`
+  client.query(sqlCommand, (err: Error, res) => {
+    if (err) throw err;
+    _response.json(JSON.stringify(res.rows[0]));
+  })
+});
 
 // app.post('/addSockToDb', (request: any, _response) => {
 //   client.query(request.body.sqlString, (err: Error) => {
@@ -102,7 +93,7 @@ app.get("/getAllWomanSuit", (_request, response) => {
 //   })
 // });
 
-const port = process.env.PORT || 5002;
+const port = process.env.PORT || 5005;
 app.listen(port, () => {
   console.log('Hosted: http://localhost:' + port);
 });

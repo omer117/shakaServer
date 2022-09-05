@@ -42,17 +42,6 @@ gulp.task('build', gulp.series(
   'tsc',
 ));
 
-// // Heroku copy dist files
-// gulp.task('heroku-copy-dist', () => {
-//   return gulp.src([
-//     './dist/app.js',
-//     './dist/app.js.map',
-//     './dist/favicon.ico',
-//     './dist/index.html',
-//     './dist/styles.css',
-//   ])
-//     .pipe(gulp.dest('./deploy/dist'));
-// });
 
 // Heroku copy root files
 gulp.task('heroku-copy-root', () => {
