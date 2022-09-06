@@ -1,9 +1,9 @@
 import path from 'path';
-import express, { Express } from 'express';
+import express, { Express, response } from 'express';
 import cors from 'cors';
 import { json } from 'body-parser';
 import { client } from './postgres';
-
+import * as DBFunctions from "./postgres"
 
 const app: Express = express();
 app.use(cors());
@@ -20,7 +20,7 @@ app.use(express.static(root), (_req, _res, next) => {
 
 
 app.get('/', (_req, res) => {
-  
+
   console.log('asd');
   client.connect();
   res.send("hello");
@@ -73,11 +73,46 @@ app.post('/getProduct', (request: any, _response) => {
   })
 });
 
-app.post('/addUser', (request: any, _response) => {
-  client.query(request.body.sqlString, (err: Error) => {
-    if (err) throw err;
-  })
+
+app.post('/addUser', (request: any, response) => {
+  let newUser = request.body.userDetails;
+  if (isValidNameInput(newUser.userName)
+    && isValidEmailInput(newUser.mailAddress)
+    && isValidPasswordInput(newUser.password)) {
+    console.log('first server if');
+    DBFunctions.AddNewUser(newUser, response)
+  } else {
+    response.send('no sqli')
+  }
 });
+
+
+
+
+
+function isValidEmailInput(email: string) {
+  const specialCharsForEmail = /[`!#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/;
+
+  return !specialCharsForEmail.test(email)
+}
+
+function isValidPasswordInput(password: string) {
+  const specialCharsForPassowrd = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+  return !specialCharsForPassowrd.test(password)
+}
+
+function isValidNameInput(name: string) {
+  const specialCharsForName = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+  return !specialCharsForName.test(name)
+}
+
+// function isValidIdInput(id: string) {
+//   const specialCharsForId = /^[0-9]+$/;
+
+//   return specialCharsForId.test(id)
+// }
 
 // app.post('/editSockById', (request: any, _response) => {
 //   client.query(request.body.sqlString, (err: Error) => {
