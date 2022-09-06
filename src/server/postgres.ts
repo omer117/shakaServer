@@ -77,23 +77,18 @@ async function initDb() {
           image TEXT NOT NULL);`
     );
 
+    await client.query(
+        `
+        CREATE TABLE IF NOT EXISTS user(
+        id SERIAL PRIMARY KEY,
+        username TEXT NOT NULL,
+        mail TEXT NOT NULL,
+        password TEXT NOT NULL);
+        `
+    )
+
             // * here i'm pushing new products to my DB *//
 
-    // await client.query(
-    //     `CREATE TABLE IF NOT EXISTS boogi(
-    //       sock_id SERIAL PRIMARY KEY,
-    //       model TEXT NOT NULL,
-    //       quantity INTEGER NOT NULL,
-    //       size INTEGER NOT NULL,
-    //       manufacturing_year TEXT NOT NULL,
-    //       location_id INTEGER,
-    //       officer_id INTEGER,
-    //       CONSTRAINT FK_locationID FOREIGN KEY(location_id)
-    //       REFERENCES locations(location_id), 
-    //       CONSTRAINT FK_officerId FOREIGN KEY(officer_id)
-    //       REFERENCES officers(officer_id)
-    //   );`
-    // );
 
     
 //     await client.query(
@@ -169,4 +164,4 @@ async function initDb() {
      
     await client.end()
 }
-    initDb(); //create the tables
+    // initDb(); //create the tables
