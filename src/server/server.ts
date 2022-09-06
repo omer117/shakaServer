@@ -73,11 +73,11 @@ app.post('/getProduct', (request: any, _response) => {
   })
 });
 
-// app.post('/addSockToDb', (request: any, _response) => {
-//   client.query(request.body.sqlString, (err: Error) => {
-//     if (err) throw err;
-//   })
-// });
+app.post('/addUser', (request: any, _response) => {
+  client.query(request.body.sqlString, (err: Error) => {
+    if (err) throw err;
+  })
+});
 
 // app.post('/editSockById', (request: any, _response) => {
 //   client.query(request.body.sqlString, (err: Error) => {

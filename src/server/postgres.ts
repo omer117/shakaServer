@@ -80,7 +80,7 @@ async function initDb() {
     await client.query(
         `
         CREATE TABLE IF NOT EXISTS user(
-        id SERIAL PRIMARY KEY,
+        user_id SERIAL PRIMARY KEY,
         username TEXT NOT NULL,
         mail TEXT NOT NULL,
         password TEXT NOT NULL);
