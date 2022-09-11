@@ -26,6 +26,23 @@ app.get('/', (_req, res) => {
   res.send("hello");
 });
 
+app.get("/sideRequest", (request, response) => {
+  client.query("SELECT  * FROM soft UNION SELECT * FROM sup order by info ASC LIMIT 3;", (err: Error, res: any) => {
+    if (err) throw err;
+    response.json(res.rows);
+  });
+});
+
+
+app.get("/sideRequest", (request, response) => {
+    client.query("SELECT email FROM users;", (err: Error, res: any) => {
+      if (err) throw err;
+      response.json(res.rows);
+    });
+  });
+
+
+  
 app.get("/getAllBoogi", (_request, response) => {
   client.query("SELECT * FROM boogi;", (err: Error, res: any) => {
     if (err) throw err;
@@ -64,6 +81,8 @@ app.get("/getAllWomanSuit", (_request, response) => {
 
 
 app.post('/getProduct', (request: any, _response) => {
+  // console.log(request.body);
+  
   let id = request.body[0];
   let catagory = request.body[1];
   let sqlCommand = `SELECT * FROM ${catagory} WHERE id=${id};`
@@ -73,19 +92,41 @@ app.post('/getProduct', (request: any, _response) => {
   })
 });
 
+app.post('/youMayLike',(request: any, _response:any)=>{
+  let catagory = request.body[0]
+  let sqlCommand = `SELECT * FROM ${catagory}
+  ORDER BY price DESC
+  LIMIT 4
+  ;`
+  client.query(sqlCommand, (err: Error, res) => {
+    if (err) throw err;
+    _response.json(JSON.stringify(res.rows));
+  })
+
+})
+
 
 app.post('/addUser', (request: any, response) => {
   let newUser = request.body.userDetails;
-  if (isValidNameInput(newUser.userName)
+  if (isValidUserNameInput(newUser.userName)
     && isValidEmailInput(newUser.mailAddress)
     && isValidPasswordInput(newUser.password)) {
-    console.log('first server if');
     DBFunctions.AddNewUser(newUser, response)
   } else {
     response.send('no sqli')
   }
 });
 
+app.post('/CheckLogIn',(request: any, response:any)=>{
+  let logInDetails = request.body.userDetails;
+  console.log(logInDetails.mailAddress);
+  if( isValidEmailInput(logInDetails.mailAddress)
+    && isValidPasswordInput(logInDetails.password)){
+      DBFunctions.checkLogIn(logInDetails,response)
+    }else{
+      response.send('not gonna happen bro')
+    }
+})
 
 
 
@@ -102,31 +143,12 @@ function isValidPasswordInput(password: string) {
   return !specialCharsForPassowrd.test(password)
 }
 
-function isValidNameInput(name: string) {
+function isValidUserNameInput(name: string) {
   const specialCharsForName = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
   return !specialCharsForName.test(name)
 }
 
-// function isValidIdInput(id: string) {
-//   const specialCharsForId = /^[0-9]+$/;
-
-//   return specialCharsForId.test(id)
-// }
-
-// app.post('/editSockById', (request: any, _response) => {
-//   client.query(request.body.sqlString, (err: Error) => {
-//     if (err) throw err;
-//   })
-// });
-
-// app.post('/deleteSockById', (request: any, _response) => {
-//   request.body.sqlString.forEach((str: string) => {
-//     client.query(str, (err: Error) => {
-//       if (err) throw err;
-//     })
-//   })
-// });
 
 const port = process.env.PORT || 5005;
 app.listen(port, () => {

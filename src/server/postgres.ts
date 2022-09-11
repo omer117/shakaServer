@@ -1,6 +1,7 @@
 import { Client } from 'pg';
 import dotenv from 'dotenv';
 import { log } from 'console';
+import { Server } from 'http';
 dotenv.config()
 
 export const DATABASE_URL = process.env.DATABASE_URL
@@ -19,17 +20,27 @@ client.connect();
 export function AddNewUser(userDetails: any, ServerResponse: any) {
     client.query(`SELECT * FROM users 
     WHERE email='${userDetails.mailAddress}';`, (err: Error, res: any) => {
-            if (err) throw err;
-            if (res.rows.length > 0) {
-                ServerResponse.send(JSON.stringify("Email already in use"))
-            } else {
-                client.query(`INSERT INTO users (username,email, password) VALUES ('${userDetails.userName}', '${userDetails.mailAddress}','${userDetails.password}');`, (err: Error, res: any) => {
-                    if (err) throw err;
+        if (err) throw err;
+        if (res.rows.length > 0) {
+            ServerResponse.send(JSON.stringify("Email already in use"))
+        } else {
+            client.query(`INSERT INTO users (username,email, password) VALUES ('${userDetails.userName}', '${userDetails.mailAddress}','${userDetails.password}');`, (err: Error, res: any) => {
+                if (err) throw err;
+                ServerResponse.send(JSON.stringify("User Added successfully"));
+            })
+        }
+    })
+}
 
-                    ServerResponse.send(JSON.stringify("User Added successfully"));
-                })
-            }
-        })
+export function checkLogIn(InputDetails: any, ServerResponse: any) {
+    client.query(`SELECT * FROM users WHERE email='${InputDetails.mailAddress}';`, (err: Error, res: any) => {
+        if (err) throw err;
+        if (res.rows.length > 0) {
+            ServerResponse.send(JSON.stringify(res.rows[0]));
+}else{
+    ServerResponse.send(JSON.stringify("no email like this bro sorry"))
+}
+    })
 }
 
 // @ts-ignore
@@ -102,7 +113,7 @@ async function initDb() {
         user_id SERIAL PRIMARY KEY,
         username TEXT NOT NULL,
         email TEXT NOT NULL,
-        password TEXT NOT NULL);
+        password TEXT NOT);
         `
     )
 
