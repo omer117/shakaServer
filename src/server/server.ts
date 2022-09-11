@@ -34,15 +34,15 @@ app.get("/sideRequest", (request, response) => {
 });
 
 
-app.get("/sideRequest", (request, response) => {
-    client.query("SELECT email FROM users;", (err: Error, res: any) => {
+app.get("/getMailUser", (request, response) => {
+    client.query("SELECT email,username FROM users;", (err: Error, res: any) => {
       if (err) throw err;
       response.json(res.rows);
     });
   });
 
 
-  
+
 app.get("/getAllBoogi", (_request, response) => {
   client.query("SELECT * FROM boogi;", (err: Error, res: any) => {
     if (err) throw err;
