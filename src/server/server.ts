@@ -34,55 +34,47 @@ app.get("/sideRequest", (request, response) => {
 });
 
 
+app.post("/addProduct", (request, response) => {
+  client.query(request.body.sqlString, (err: Error, res: any) => {
+    if (err) throw err;
+    response.send('product Added successfully');
+  })});
+
+app.post("/deleteProduct", (request, response) => {
+  client.query(request.body.sqlString, (err: Error, res: any) => {
+    if (err) throw err;
+    response.send('product Deleted successfully');
+  })
+})
+
 app.get("/getMailUser", (request, response) => {
-    client.query("SELECT email,username FROM users;", (err: Error, res: any) => {
-      if (err) throw err;
-      response.json(res.rows);
-    });
+  client.query("SELECT email,username FROM users;", (err: Error, res: any) => {
+    if (err) throw err;
+    response.json(res.rows);
   });
+});
 
-
-
-app.get("/getAllBoogi", (_request, response) => {
-  client.query("SELECT * FROM boogi;", (err: Error, res: any) => {
+app.get("/getBeaches", (request, response) => {
+  client.query("SELECT * FROM beaches;", (err: Error, res: any) => {
     if (err) throw err;
     response.json(res.rows);
   });
 });
 
 
-app.get("/getAllsup", (_request, response) => {
-  client.query("SELECT * FROM sup;", (err: Error, res: any) => {
-    if (err) throw err;
-    response.json(res.rows);
-  });
-});
 
-app.get("/getAllsoft", (_request, response) => {
-  client.query("SELECT * FROM soft;", (err: Error, res: any) => {
-    if (err) throw err;
-    response.json(res.rows);
-  });
-});
 
-app.get("/getAllmanSuit", (_request, response) => {
-  client.query("SELECT * FROM mansuit;", (err: Error, res: any) => {
+app.post("/getAll", (request, response) => {
+  let product = request.body[0];
+  let sqlCommand = `SELECT * FROM ${product};`
+  client.query(sqlCommand, (err: Error, res) => {
     if (err) throw err;
-    response.json(res.rows);
-  });
-});
-
-app.get("/getAllWomanSuit", (_request, response) => {
-  client.query("SELECT * FROM womansuit;", (err: Error, res: any) => {
-    if (err) throw err;
-    response.json(res.rows);
-  });
+    response.json(JSON.stringify(res.rows));
+  })
 });
 
 
 app.post('/getProduct', (request: any, _response) => {
-  // console.log(request.body);
-  
   let id = request.body[0];
   let catagory = request.body[1];
   let sqlCommand = `SELECT * FROM ${catagory} WHERE id=${id};`
@@ -92,17 +84,14 @@ app.post('/getProduct', (request: any, _response) => {
   })
 });
 
-app.post('/youMayLike',(request: any, _response:any)=>{
+app.post('/youMayLike', (request: any, _response: any) => {
   let catagory = request.body[0]
   let sqlCommand = `SELECT * FROM ${catagory}
-  ORDER BY price DESC
-  LIMIT 4
-  ;`
+  ORDER BY price DESC LIMIT 4;`
   client.query(sqlCommand, (err: Error, res) => {
     if (err) throw err;
     _response.json(JSON.stringify(res.rows));
   })
-
 })
 
 
@@ -117,15 +106,15 @@ app.post('/addUser', (request: any, response) => {
   }
 });
 
-app.post('/CheckLogIn',(request: any, response:any)=>{
+app.post('/CheckLogIn', (request: any, response: any) => {
   let logInDetails = request.body.userDetails;
   console.log(logInDetails.mailAddress);
-  if( isValidEmailInput(logInDetails.mailAddress)
-    && isValidPasswordInput(logInDetails.password)){
-      DBFunctions.checkLogIn(logInDetails,response)
-    }else{
-      response.send('not gonna happen bro')
-    }
+  if (isValidEmailInput(logInDetails.mailAddress)
+    && isValidPasswordInput(logInDetails.password)) {
+    DBFunctions.checkLogIn(logInDetails, response)
+  } else {
+    response.send('not gonna happen bro')
+  }
 })
 
 

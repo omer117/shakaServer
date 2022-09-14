@@ -1,7 +1,5 @@
 import { Client } from 'pg';
 import dotenv from 'dotenv';
-import { log } from 'console';
-import { Server } from 'http';
 dotenv.config()
 
 export const DATABASE_URL = process.env.DATABASE_URL
@@ -97,15 +95,15 @@ async function initDb() {
           image TEXT NOT NULL);`
     );
 
-    await client.query(
-        `CREATE TABLE IF NOT EXISTS accessories(
-          id SERIAL PRIMARY KEY,
-          title TEXT NOT NULL,
-          price INTEGER NOT NULL,
-          info TEXT NOT NULL,
-          sizes INTEGER[] NOT NULL,
-          image TEXT NOT NULL);`
-    );
+    // await client.query(
+    //     `CREATE TABLE IF NOT EXISTS accessories(
+    //       id SERIAL PRIMARY KEY,
+    //       title TEXT NOT NULL,
+    //       price INTEGER NOT NULL,
+    //       info TEXT NOT NULL,
+    //       sizes INTEGER[] NOT NULL,
+    //       image TEXT NOT NULL);`
+    // );
 
     await client.query(
         `
@@ -117,6 +115,16 @@ async function initDb() {
         `
     )
 
+
+    await client.query(
+        `
+        CREATE TABLE IF NOT EXISTS beaches(
+        beach_id SERIAL PRIMARY KEY,
+        beach_name TEXT NOT NULL,
+        lat NUMERIC NOT NULL,
+        lon NUMERIC NOT NULL);
+        `
+    )
     // * here i'm pushing new products to my DB *//
 
 
