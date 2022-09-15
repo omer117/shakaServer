@@ -26,6 +26,35 @@ app.get('/', (_req, res) => {
   res.send("hello");
 });
 
+app.post("/queryRequestNoReturn", (request, response) => {
+  client.query(request.body.sqlString, (err: Error, res: any) => {
+    if (err) throw err;
+    response.send('yay')
+    })
+})
+
+app.post("/everyDayGet", (request, response) => {
+  client.query(request.body.sqlString, (err: Error, res: any) => {
+    if (err) throw err;
+    response.json(res.rows)
+    })
+})
+
+app.get('/UpdateForecast', (request, response) => {
+
+  console.log('asd');
+  response.send("hello");
+});
+
+app.get("/getForecast", (request, response) => {
+  client.query("SELECT * FROM forecast WHERE forecast_hour=x", (err: Error, res: any) => {
+    if (err) throw err;
+    response.json(res.rows);
+  });
+});
+
+
+
 app.get("/sideRequest", (request, response) => {
   client.query("SELECT  * FROM soft UNION SELECT * FROM sup order by info ASC LIMIT 3;", (err: Error, res: any) => {
     if (err) throw err;
