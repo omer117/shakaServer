@@ -4,6 +4,7 @@ import cors from 'cors';
 import { json } from 'body-parser';
 import { client } from './postgres';
 import * as DBFunctions from "./postgres"
+import * as weatherScript from "./weatherScript"
 
 const app: Express = express();
 app.use(cors());
@@ -19,14 +20,21 @@ app.use(express.static(root), (_req, _res, next) => {
 
 
 
-app.get('/', (_req, res) => {
+app.get('/', (_req, response) => {
 
   console.log('asd');
   client.connect();
-  res.send("hello");
+  response.send("hello");
 });
 
+app.get('/new', (req, response) => {
+  console.log('asd');
+  weatherScript.checkAndUpdateDailyForecast(response);
+})
+
 app.post("/queryRequestNoReturn", (request, response) => {
+  console.log(request.body.sqlString);
+  
   client.query(request.body.sqlString, (err: Error, res: any) => {
     if (err) throw err;
     response.send('yay')
@@ -168,7 +176,7 @@ function isValidUserNameInput(name: string) {
 }
 
 
-const port = process.env.PORT || 5005;
+const port = process.env.PORT || 5006;
 app.listen(port, () => {
   console.log('Hosted: http://localhost:' + port);
 });
