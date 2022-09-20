@@ -17,11 +17,12 @@ client.connect();
 
 export function AddNewUser(userDetails: any, ServerResponse: any) {
     client.query(`SELECT * FROM users 
-    WHERE email='${userDetails.mailAddress}';`, (err: Error, res: any) => {
+    WHERE email='${userDetails.mailAddress}';`, async (err: Error, res: any) => {
         if (err) throw err;
         if (res.rows.length > 0) {
             ServerResponse.send(JSON.stringify("Email already in use"))
         } else {
+            const hashedPassword = await bcrypt.hash(userDetails.password, 10)
             client.query(`INSERT INTO users (username,email, password) VALUES ('${userDetails.userName}', '${userDetails.mailAddress}','${userDetails.password}');`, (err: Error, res: any) => {
                 if (err) throw err;
                 ServerResponse.send(JSON.stringify("User Added successfully"));

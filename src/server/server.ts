@@ -27,14 +27,12 @@ app.get('/', (_req, response) => {
   response.send("hello");
 });
 
-app.get('/new', (req, response) => {
+app.get('/new', (request, response) => {
   console.log('asd');
   weatherScript.checkAndUpdateDailyForecast(response);
 })
 
-app.post("/queryRequestNoReturn", (request, response) => {
-  console.log(request.body.sqlString);
-  
+app.post("/queryRequestNoReturn", (request, response) => {  
   client.query(request.body.sqlString, (err: Error, res: any) => {
     if (err) throw err;
     response.send('yay')
@@ -54,8 +52,9 @@ app.get('/UpdateForecast', (request, response) => {
   response.send("hello");
 });
 
-app.get("/getForecast", (request, response) => {
-  client.query("SELECT * FROM forecast WHERE forecast_hour=x", (err: Error, res: any) => {
+app.post("/getForecast", (request, response) => {
+
+  client.query(request.body.sqlString, (err: Error, res: any) => {
     if (err) throw err;
     response.json(res.rows);
   });

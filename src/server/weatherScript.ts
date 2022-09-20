@@ -11,7 +11,7 @@ import { Beaches } from './BeachesConst'
 
 let startDate = new Date()
 let orgDate = startDate.getDate();
-let fetchDate = (startDate.getFullYear() + '-' + (startDate.getMonth() + 1) + '-' + startDate.getDate())
+let fetchDate = (startDate.getFullYear() + '-' + (startDate.getMonth() + 1) + '-' + (startDate.getDate() - 1))
 let newFetchEndDate = (startDate.getFullYear() + '-' + (startDate.getMonth() + 1) + '-' + (startDate.getDate() + 1))
 
 
@@ -24,7 +24,7 @@ export async function checkAndUpdateDailyForecast(ServerResponse: any) {
 
             if (lastDate !== orgDate) {
                 Beaches.forEach(async (beach) => {
-                    axios.request({
+                    await axios.request({
                         method: 'GET',
                         url: 'https://api.stormglass.io/v2/weather/point',
                         params: {
@@ -41,12 +41,11 @@ export async function checkAndUpdateDailyForecast(ServerResponse: any) {
                             // 'Authorization': '64913ab6-341e-11ed-869c-0242ac130002-64913b4c-341e-11ed-869c-0242ac130002'
                             // 'Authorization': '589a1a3e-341e-11ed-b34b-0242ac130002-589a1a98-341e-11ed-b34b-0242ac130002'
                             // 'Authorization': '9a76f454-341e-11ed-869c-0242ac130002-9a76f4c2-341e-11ed-869c-0242ac130002'
-
                         }
                     }).then((res) => {
                         let Newforecast = (JSON.parse(JSON.stringify(res.data.hours[0])));
                         let newBeachDetails = {
-                            wave_height: Newforecast.waveHeight.meteo,
+                            wave_height: Newforecast.waveHeight.icon,
                             wind_direction: Newforecast.windDirection.icon,
                             wind_speed: Newforecast.windSpeed.icon,
                             water_temperature: Newforecast.waterTemperature.meto,
@@ -54,19 +53,19 @@ export async function checkAndUpdateDailyForecast(ServerResponse: any) {
                             beach_id: beach.beach_id
                         }
                         console.log(newBeachDetails);
-
                         axios.post('http://localhost:5006/queryRequestNoReturn', {
                             sqlString:
                                 `DELETE FROM daily_forecast`
-                        }).then(() => {
-                            axios.post('http://localhost:5006/queryRequestNoReturn', {
+                        }).then(async () => {
+                            console.log(newBeachDetails.beach_id + "IN");
+                            await axios.post('http://localhost:5006/queryRequestNoReturn', {
                                 sqlString:
                                     `INSERT INTO daily_forecast (wave_height,wind_direction,wind_speed,water_temperature,last_updated,beach_id) VALUES (${newBeachDetails.wave_height},${newBeachDetails.wind_direction},${newBeachDetails.wind_speed},${newBeachDetails.water_temperature},'${newBeachDetails.last_updated}',${newBeachDetails.beach_id}); `
-                            }).then((res) => {
-                                console.log(res);
+                            }).catch((error) => {
+                                console.log(error)
+                            }).finally(()=>{
+                                ServerResponse.end()
                             })
-                        }).catch((err) => {
-                            console.log(err)
                         })
                     })
                 })
