@@ -34,36 +34,36 @@ export const Beaches =
             "lat": "32.3293",
             "lon": "34.8479"
         }
-        // ,
-        // {
-        //     "beach_id": 6,
-        //     "beach_name": "Tel Baruch",
-        //     "lat": "32.1175",
-        //     "lon": "34.7807"
-        // },
-        // {
-        //     "beach_id": 7,
-        //     "beach_name": "Rishon Lezion",
-        //     "lat": "31.9999",
-        //     "lon": "34.7298"
-        // },
-        // {
-        //     "beach_id": 8,
-        //     "beach_name": "Ashdod",
-        //     "lat": "31.8172",
-        //     "lon": "34.6344"
-        // },
-        // {
-        //     "beach_id": 9,
-        //     "beach_name": "Ashkelon",
-        //     "lat": "31.6776",
-        //     "lon": "34.5518"
-        // },
-        // {
-        //     "beach_id": 10,
-        //     "beach_name": "Zikim",
-        //     "lat": "31.6136",
-        //     "lon": "34.5037"
-        // }
+        ,
+        {
+            "beach_id": 6,
+            "beach_name": "Tel Baruch",
+            "lat": "32.1175",
+            "lon": "34.7807"
+        },
+        {
+            "beach_id": 7,
+            "beach_name": "Rishon Lezion",
+            "lat": "31.9999",
+            "lon": "34.7298"
+        },
+        {
+            "beach_id": 8,
+            "beach_name": "Ashdod",
+            "lat": "31.8172",
+            "lon": "34.6344"
+        },
+        {
+            "beach_id": 9,
+            "beach_name": "Ashkelon",
+            "lat": "31.6776",
+            "lon": "34.5518"
+        },
+        {
+            "beach_id": 10,
+            "beach_name": "Zikim",
+            "lat": "31.6136",
+            "lon": "34.5037"
+        }
     ]
 

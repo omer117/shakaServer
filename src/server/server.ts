@@ -32,6 +32,13 @@ app.get('/new', (request, response) => {
   weatherScript.checkAndUpdateDailyForecast(response);
 })
 
+app.get('/weatherForecast', (request, response) => {
+  client.query(`SELECT * FROM daily_forecast;`,(err: Error, res: any)=>{
+    if  (err) throw err;
+    response.json(res.rows)
+  })
+})
+
 app.post("/queryRequestNoReturn", (request, response) => {  
   client.query(request.body.sqlString, (err: Error, res: any) => {
     if (err) throw err;
