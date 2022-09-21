@@ -24,7 +24,7 @@ export async function checkAndUpdateDailyForecast(ServerResponse: any) {
             let lastDate = (Number(response.data[0].last_updated.substring(8, 10)));
 
             if (lastDate !== orgDate) {
-                axios.post('http://localhost:5006/queryRequestNoReturn', {
+                axios.post('https://shakaserver2.herokuapp.com/queryRequestNoReturn', {
                     sqlString:
                         `DELETE FROM daily_forecast`
                 }).then(() => {
@@ -60,7 +60,7 @@ export async function checkAndUpdateDailyForecast(ServerResponse: any) {
                                 beach_name: beach.beach_name
                             }
                             console.log(newBeachDetails);
-                            axios.post('http://localhost:5006/queryRequestNoReturn', {
+                            axios.post('https://shakaserver2.herokuapp.com/queryRequestNoReturn', {
                                 sqlString:
                                     `INSERT INTO daily_forecast (wave_height,wind_direction,wind_speed,water_temperature,last_updated,beach_id,beach_name) VALUES (${newBeachDetails.wave_height},${newBeachDetails.wind_direction},${newBeachDetails.wind_speed},${newBeachDetails.water_temperature},'${newBeachDetails.last_updated}',${newBeachDetails.beach_id},'${newBeachDetails.beach_name}'); `
                             }).catch((error) => {
