@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Beaches } from './BeachesConst'
+import { Beaches } from './Beaches'
 //1 get daily forecast
 //2 check last updated 
 //3 if LU older then today Date:
@@ -22,13 +22,11 @@ export async function checkAndUpdateDailyForecast(ServerResponse: any) {
         { sqlString: 'SELECT * FROM daily_forecast LIMIT 1' })
         .then((response) => {
             let lastDate = (Number(response.data[0].last_updated.substring(8, 10)));
-
             if (lastDate !== orgDate) {
                 axios.post('https://shakaserver2.herokuapp.com/queryRequestNoReturn', {
                     sqlString:
                         `DELETE FROM daily_forecast`
                 }).then(() => {
-
                     Beaches.forEach(async (beach) => {
                         await axios.request({
                             method: 'GET',
@@ -72,7 +70,7 @@ export async function checkAndUpdateDailyForecast(ServerResponse: any) {
                     })
                 }
                 )
-            }else{
+            } else {
                 ServerResponse.send(JSON.stringify('no need for update'))
             }
         })

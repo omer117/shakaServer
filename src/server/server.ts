@@ -53,14 +53,8 @@ app.post("/everyDayGet", (request, response) => {
     })
 })
 
-app.get('/UpdateForecast', (request, response) => {
-
-  console.log('asd');
-  response.send("hello");
-});
 
 app.post("/getForecast", (request, response) => {
-
   client.query(request.body.sqlString, (err: Error, res: any) => {
     if (err) throw err;
     response.json(res.rows);

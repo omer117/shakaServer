@@ -50,6 +50,8 @@ gulp.task('heroku-copy-root', () => {
     './package-lock.json',
     './Procfile',
     './dist/tsc/server.js',
+    './dist/tsc/Beaches.js',
+    './dist/tsc/weatherScript.js',
     './dist/tsc/postgres.js',
   ])
     .pipe(gulp.dest('./deploy'));
