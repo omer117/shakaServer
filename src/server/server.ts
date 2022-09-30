@@ -124,7 +124,7 @@ app.post('/getProduct', (request: any, _response) => {
 app.post('/youMayLike', (request: any, _response: any) => {
   let catagory = request.body[0]
   let sqlCommand = `SELECT * FROM ${catagory}
-  ORDER BY price DESC LIMIT 4;`
+  ORDER BY price DESC LIMIT 3;`
   client.query(sqlCommand, (err: Error, res) => {
     if (err) throw err;
     _response.json(JSON.stringify(res.rows));

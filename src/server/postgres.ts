@@ -1,6 +1,6 @@
 import { Client } from 'pg';
 import dotenv from 'dotenv';
-import bcrypt  from  'bcrypt';
+import bcrypt from 'bcrypt';
 dotenv.config()
 
 export const DATABASE_URL = process.env.DATABASE_URL
@@ -24,7 +24,7 @@ export function AddNewUser(userDetails: any, ServerResponse: any) {
             ServerResponse.send(JSON.stringify("Email already in use"))
         } else {
             const hashedPassword = await bcrypt.hash(userDetails.password, 10)
-             client.query(`INSERT INTO users (username,email, password) VALUES ('${userDetails.userName}', '${userDetails.mailAddress}','${hashedPassword}');`, (err: Error, res: any) => {
+            client.query(`INSERT INTO users (username,email, password) VALUES ('${userDetails.userName}', '${userDetails.mailAddress}','${hashedPassword}');`, (err: Error, res: any) => {
                 if (err) throw err;
                 ServerResponse.send(JSON.stringify("User Added successfully"));
             })
@@ -35,12 +35,15 @@ export function AddNewUser(userDetails: any, ServerResponse: any) {
 export function checkLogIn(InputDetails: any, ServerResponse: any) {
     client.query(`SELECT * FROM users WHERE email='${InputDetails.mailAddress}';`, async (err: Error, res: any) => {
         if (err) throw err;
-        if (res.rows.length > 0) {
-            // const isValidPass = await bcrypt.compare(InputDetails.password, user.password);
-            ServerResponse.send(JSON.stringify(res.rows[0]));
-}else{
-    ServerResponse.send(JSON.stringify("no email like this bro sorry"))
-}
+        const user = res.rows[0];
+        if (user != null) {
+            const isValidPass = await bcrypt.compare(InputDetails.password, user.password);
+            if (isValidPass) {
+                ServerResponse.send(JSON.stringify(user.username));
+            }
+        } else {
+            ServerResponse.send(JSON.stringify("no email like this bro sorry"))
+        }
     })
 }
 
