@@ -62,15 +62,6 @@ app.post("/getForecast", (request, response) => {
 });
 
 
-
-app.get("/sideRequest", (request, response) => {
-  client.query("SELECT  * FROM soft UNION SELECT * FROM sup order by info ASC LIMIT 3;", (err: Error, res: any) => {
-    if (err) throw err;
-    response.json(res.rows);
-  });
-});
-
-
 app.post("/addProduct", (request, response) => {
   client.query(request.body.sqlString, (err: Error, res: any) => {
     if (err) throw err;

@@ -39,7 +39,7 @@ export function checkLogIn(InputDetails: any, ServerResponse: any) {
         if (user != null) {
             const isValidPass = await bcrypt.compare(InputDetails.password, user.password);
             if (isValidPass) {
-                ServerResponse.send(JSON.stringify(user.username));
+                ServerResponse.send(JSON.stringify({"user":[user.username,user.user_id]}));
             }
         } else {
             ServerResponse.send(JSON.stringify("no email like this bro sorry"))
