@@ -18,12 +18,11 @@ app.use(express.static(root), (_req, _res, next) => {
   next();
 });
 
+client.connect();
 
 
 app.get('/', (_req, response) => {
-  response.set('Access-Control-Allow-Origin', '*');
   console.log('asd');
-  client.connect();
   response.send("hello");
 });
 
