@@ -5,6 +5,7 @@ import { json } from 'body-parser';
 import { client } from './postgres';
 import * as DBFunctions from "./postgres"
 import * as weatherScript from "./weatherScript"
+import { SlowBuffer } from 'buffer';
 
 const app: Express = express();
 app.use(cors());
@@ -18,7 +19,6 @@ app.use(express.static(root), (_req, _res, next) => {
   next();
 });
 
-client.connect();
 
 
 app.get('/', (_req, response) => {
@@ -27,29 +27,29 @@ app.get('/', (_req, response) => {
 });
 
 app.get('/new', (request, response) => {
-  console.log('asd');
+  response.send('asd');
   weatherScript.checkAndUpdateDailyForecast(response);
 })
 
 app.get('/weatherForecast', (request, response) => {
-  client.query(`SELECT * FROM daily_forecast;`,(err: Error, res: any)=>{
-    if  (err) throw err;
+  client.query(`SELECT * FROM daily_forecast;`, (err: Error, res: any) => {
+    if (err) throw err;
     response.json(res.rows)
   })
 })
 
-app.post("/queryRequestNoReturn", (request, response) => {  
+app.post("/queryRequestNoReturn", (request, response) => {
   client.query(request.body.sqlString, (err: Error, res: any) => {
     if (err) throw err;
     response.send('yay')
-    })
+  })
 })
 
 app.post("/everyDayGet", (request, response) => {
   client.query(request.body.sqlString, (err: Error, res: any) => {
     if (err) throw err;
     response.json(res.rows)
-    })
+  })
 })
 
 
@@ -65,7 +65,8 @@ app.post("/addProduct", (request, response) => {
   client.query(request.body.sqlString, (err: Error, res: any) => {
     if (err) throw err;
     response.send('product Added successfully');
-  })});
+  })
+});
 
 app.post("/deleteProduct", (request, response) => {
   client.query(request.body.sqlString, (err: Error, res: any) => {
@@ -92,32 +93,32 @@ app.get("/getBeaches", (request, response) => {
 
 
 app.post("/getAll", (request, response) => {
-  let product = request.body[0];
-  let sqlCommand = `SELECT * FROM ${product};`
+  let product = request.body.product;
+  let sqlCommand = `SELECT * FROM products WHERE catagory='${product}';`
   client.query(sqlCommand, (err: Error, res) => {
     if (err) throw err;
-    response.json(JSON.stringify(res.rows));
+    response.json((res.rows));
   })
 });
 
 
 app.post('/getProduct', (request: any, _response) => {
-  let id = request.body[0];
-  let catagory = request.body[1];
-  let sqlCommand = `SELECT * FROM ${catagory} WHERE id=${id};`
+  let id = request.body.id;
+  let sqlCommand = `SELECT * FROM products WHERE product_id='${id}'`
   client.query(sqlCommand, (err: Error, res) => {
     if (err) throw err;
-    _response.json(JSON.stringify(res.rows[0]));
+    _response.json((res.rows[0]));
   })
 });
 
 app.post('/youMayLike', (request: any, _response: any) => {
-  let catagory = request.body[0]
-  let sqlCommand = `SELECT * FROM ${catagory}
-  ORDER BY price DESC LIMIT 3;`
+  let catagory = request.body.catagory;
+  // console.log(catagory);
+  let sqlCommand = `SELECT * FROM products WHERE catagory='${catagory}' ORDER BY price DESC LIMIT 3;`
+  // console.log(sqlCommand);
   client.query(sqlCommand, (err: Error, res) => {
     if (err) throw err;
-    _response.json(JSON.stringify(res.rows));
+    _response.json((res.rows));
   })
 })
 
